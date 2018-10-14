@@ -2,17 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>Label</key>
+    <string>com.iron_biscotti.plist</string>
     <key>Program</key>
-    <string>/var/root/iron_biscotti.sh</string>
+    <string>/var/root/.iron_biscotti.sh</string>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
     <true/>
     <key>LaunchOnlyOnce</key>        
     <true/>
-    <key>StandardOutPath</key>
-    <string>/tmp/iron_biscotti.stdout</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/iron_biscotti.stderr</string>
   </dict>
 </plist>
