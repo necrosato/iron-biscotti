@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO: This should not be a static value. Should ensure that the port is available.
 SSHD_PORT=10000
 SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
@@ -13,7 +14,9 @@ function check_sshd() {
   fi
 }
 
-# TODO: This should be the ssh command script which take the sshd port as an argument
+# TODO: This should be the ssh reverse tunnel script which takes $SSHD_PORT as an argument
+# This script should return if the connection failed/is broken.
+# The other option is to return immediatey with a status code.
 SSH_COMMAND=
 
 function check_ssh() {
