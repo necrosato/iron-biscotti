@@ -1,4 +1,4 @@
-*SSH Launch Daemon*
+# SSH Launch Daemon
 Launch daemons for macOS are similar to systemd daemons on Linux.
 We want to use a launch daemon and not launch agent because agents run on a per user basis once one logs in,
 while daemons are run as `root` as soon as the system boots.
