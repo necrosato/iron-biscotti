@@ -5,7 +5,7 @@ while daemons are run as `root` as soon as the system boots.
 A launch daemon is comprised of two parts:
 1. A script which will run at startup.
 2. A job description stored as an apple property list (.plist) in `/Library/LaunchDaemons/`.
-This must be owned by `root`.
+This must have `root:wheel` ownership.
 
 It will do the following things:
 1. Start and monitor `/usr/sbin/sshd` to an unbound port.
