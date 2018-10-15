@@ -26,10 +26,8 @@ function check_sshd() {
   fi
 }
 
-# TODO: This should be the ssh reverse tunnel script which takes $SSHD_PORT as an argument
-# This script should return if the connection failed/is broken.
-# The other option is to return immediatey with a status code.
-SSH_COMMAND=
+# Exits with status code '1' if the connection was not established
+SSH_COMMAND="./tunnel.sh $SSHD_PORT"
 
 function check_ssh() {
   SSH_PID=$(ps -ax | grep "$SSH_COMMAND" | grep -v "grep" | awk '{print $1}')
