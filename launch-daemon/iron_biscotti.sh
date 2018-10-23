@@ -11,9 +11,9 @@ function find_port() {
       nc -z 127.0.0.1 $port
       if [ "$?" -eq 1 ]; then
         SSHD_PORT=$port	
-	SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
-	SSH_COMMAND="./tunnel.sh $SSHD_PORT"
-	break
+	    SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
+	    SSH_COMMAND="./tunnel.sh $SSHD_PORT"
+	    break
       fi
     done
 }
