@@ -14,7 +14,7 @@ for the root user to a remote server.
 ## The Device
 
 The main attack vector for this project will be physical USB access to the target host.
-The following are platfors we considered for the device:  
+The following are platforms we considered for the device:  
 1. USB Rubber ducky: This microcontroller can mimic usb keyboards.
 Drawbacks are its limited functionality and slower input speed in comparison to the arduino.
 2. ATMEGA32U4 microcontroller: Otherwise known as the Ardiono Micro or Leonardo, this microcontroller can
