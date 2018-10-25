@@ -1,21 +1,23 @@
 #!/bin/bash
 
-PORT_BEGIN=10000
 SSHD_PORT=10000
 SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
 
 function find_port() {
-  for ((port=$PORT_BEGIN; port<=$PORT_BEGIN+1000; port++))
-    do
+  read lower_port upper_port < /proc/sys/net/ipv4/ip_local_port_range
+
+  while :; do
+    for ((port = lower_port; port <= upper_port; port++)); do
       nc -z 127.0.0.1 $port
       if [ "$?" -eq 1 ]; then
         SSHD_PORT=$port	
-	    SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
-	    SSH_COMMAND="./tunnel.sh $SSHD_PORT"
-	    break
+        SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
+        SSH_COMMAND="./tunnel.sh $SSHD_PORT"
+        break 2
       fi
     done
+  done
 }
 
 function check_sshd() {
@@ -31,7 +33,8 @@ function check_ssh() {
   SSH_PID=$(ps -ax | grep "$SSH_COMMAND" | grep -v "grep" | awk '{print $1}')
   if [ "$SSH_PID" == "" ]; then
     # Exits with status code '1' if the connection was not established
-    $SSH_COMMAND
+    # If successful saves the port allocated message to file
+    $SSH_COMMAND > port 2>&1
   fi
 }
 
