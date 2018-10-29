@@ -5,10 +5,11 @@ SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
 
 function find_port() {
-  read lower_port upper_port < /proc/sys/net/ipv4/ip_local_port_range
+  LOWER_PORT=`sysctl net.inet.ip.portrange.first | sed s/net.inet.ip.portrange.first:\ //`
+  UPPER_PORT=`sysctl net.inet.ip.portrange.last | sed s/net.inet.ip.portrange.last:\ //`
 
   while :; do
-    for ((port = lower_port; port <= upper_port; port++)); do
+    for ((port = $LOWER_PORT; port <= $UPPER_PORT; port++)); do
       nc -z 127.0.0.1 $port
       if [ "$?" -eq 1 ]; then
         SSHD_PORT=$port	
@@ -33,8 +34,8 @@ function check_ssh() {
   SSH_PID=$(ps -ax | grep "$SSH_COMMAND" | grep -v "grep" | awk '{print $1}')
   if [ "$SSH_PID" == "" ]; then
     # Exits with status code '1' if the connection was not established
-    # If successful saves the port allocated message to file
-    $SSH_COMMAND > port 2>&1
+    $SSH_COMMAND 
+
   fi
 }
 
