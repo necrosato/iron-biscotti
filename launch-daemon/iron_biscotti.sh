@@ -1,24 +1,18 @@
 #!/bin/bash
 
-SSHD_PORT=10000
+SSHD_PORT=49152
+SSH_PORT=65535
 SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
 
-function find_port() {
-  LOWER_PORT=`sysctl net.inet.ip.portrange.first | sed s/net.inet.ip.portrange.first:\ //`
-  UPPER_PORT=`sysctl net.inet.ip.portrange.last | sed s/net.inet.ip.portrange.last:\ //`
 
-  while :; do
-    for ((port = $LOWER_PORT; port <= $UPPER_PORT; port++)); do
-      nc -z 127.0.0.1 $port
-      if [ "$?" -eq 1 ]; then
-        SSHD_PORT=$port	
-        SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
-        SSH_COMMAND="./tunnel.sh $SSHD_PORT"
-        break 2
-      fi
-    done
-  done
+function find_port() {
+  SSHD_PORT=$(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')
+  echo "sshd port: $SSHD_PORT"
+  SSH_PORT=$(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')
+  echo "ssh port: $SSH_PORT"
+  SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
+  SSH_COMMAND="./tunnel.sh $SSHD_PORT $SSH_PORT"
 }
 
 function check_sshd() {
@@ -34,8 +28,9 @@ function check_ssh() {
   SSH_PID=$(ps -ax | grep "$SSH_COMMAND" | grep -v "grep" | awk '{print $1}')
   if [ "$SSH_PID" == "" ]; then
     # Exits with status code '1' if the connection was not established
-    $SSH_COMMAND 
-
+    $SSH_COMMAND
+    SSH_STATUS=$?
+    echo "Status Code: $SSH_STATUS"
   fi
 }
 
