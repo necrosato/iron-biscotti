@@ -16,3 +16,8 @@ for the root user to a remote server.
 
 ATMEGA32U4 microcontroller: Otherwise known as the Ardiono Pro Micro or Leonardo, this microcontroller can
 use the HID protocol to emulate a USB keyboard and mouse. It has a much faster speed than the rubber ducky.
+
+## SSH Keys
+
+Normally we wouldn't store ssh keys in a git repo. Note that these keys are for placeholding and example purposes,
+We are leaving fake test keys in the repo to show how the files must be laid out, and how to store ssh keys in c++.

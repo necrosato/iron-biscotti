@@ -2,6 +2,9 @@
 
 # Setup sshd server with the proper config.
 
+CDIR=$(pwd)
+cd $(dirname $0)
+
 # sed handles if option is incorrect or commented out
 sed -i 's/#* *PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
 sed -i 's/#* *PasswordAuthentication .*/PasswordAuthentication no/g' /etc/ssh/sshd_config
@@ -12,5 +15,16 @@ grep -q '^PermitRootLogin ' /etc/ssh/sshd_config || echo 'PermitRootLogin no' >>
 grep -q '^PasswordAuthentication ' /etc/ssh/sshd_config || echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config
 grep -q '^ClientAliveInterval ' /etc/ssh/sshd_config || echo 'ClientAliveInterval 30' >> /etc/ssh/sshd_config
 grep -q '^ClientAliveCountMax ' /etc/ssh/sshd_config || echo 'ClientAliveCountMax 2' >> /etc/ssh/sshd_config
+
+mkdir -p /home/pi/.ssh/
+chown pi:pi /home/pi/.ssh/
+cp id_rsa /home/pi/.ssh/id_rsa
+chown root:root /home/pi/.ssh/id_rsa
+chmod 400 /home/pi/.ssh/id_rsa
+cp id_rsa.pub /var/root/.ssh/id_rsa.pub
+chown root:root /home/pi/.ssh/id_rsa.pub
+chmod 644 /home/pi/.ssh/id_rsa.pub
+
 systemctl enable ssh
 systemctl restart ssh
+cd $CDIR
