@@ -28,6 +28,9 @@ chmod 400 /var/root/.ssh/id_rsa
 cp id_rsa.pub /var/root/.ssh/id_rsa.pub
 chown root:root /var/root/.ssh/id_rsa.pub
 chmod 644 /var/root/.ssh/id_rsa.pub
+grep -q "$(cat ../tunnel-server/id_rsa.pub)" /var/root/.ssh/authorized_keys || \
+  echo "$(cat ../tunnel-server/id_rsa.pub)" >> /var/root/.ssh/authorized_keys
+chown root:root /var/root/.ssh/authorized_keys
 
 # Enable daemon
 launchctl load -w /Library/LaunchDaemons/com.iron_biscotti.plist
