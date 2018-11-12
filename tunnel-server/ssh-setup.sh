@@ -19,11 +19,13 @@ grep -q '^ClientAliveCountMax ' /etc/ssh/sshd_config || echo 'ClientAliveCountMa
 mkdir -p /home/pi/.ssh/
 chown pi:pi /home/pi/.ssh/
 cp id_rsa /home/pi/.ssh/id_rsa
-chown root:root /home/pi/.ssh/id_rsa
+chown pi:pi /home/pi/.ssh/id_rsa
 chmod 400 /home/pi/.ssh/id_rsa
 cp id_rsa.pub /var/root/.ssh/id_rsa.pub
-chown root:root /home/pi/.ssh/id_rsa.pub
+chown pi:pi /home/pi/.ssh/id_rsa.pub
 chmod 644 /home/pi/.ssh/id_rsa.pub
+cat ../launch-daemon/id_rsa.pub >> /home/pi/.ssh/authorized_keys
+chown pi:pi /home/pi/.ssh/authorized_keys
 
 systemctl enable ssh
 systemctl restart ssh
