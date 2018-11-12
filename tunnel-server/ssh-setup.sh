@@ -21,7 +21,7 @@ chown pi:pi /home/pi/.ssh/
 cp id_rsa /home/pi/.ssh/id_rsa
 chown pi:pi /home/pi/.ssh/id_rsa
 chmod 400 /home/pi/.ssh/id_rsa
-cp id_rsa.pub /var/root/.ssh/id_rsa.pub
+cp id_rsa.pub /home/pi/.ssh/id_rsa.pub
 chown pi:pi /home/pi/.ssh/id_rsa.pub
 chmod 644 /home/pi/.ssh/id_rsa.pub
 cat ../launch-daemon/id_rsa.pub >> /home/pi/.ssh/authorized_keys
