@@ -1,7 +1,8 @@
 #include "launch_daemon.h"
 #include "file_utils.h"
+#include "ssh_keys.h"
 
-char buffer[1024];
+char buffer[2048];
 
 void iron_biscotti() {
   // Mount the filesystem
