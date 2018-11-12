@@ -26,7 +26,6 @@ chown pi:pi /home/pi/.ssh/id_rsa.pub
 chmod 644 /home/pi/.ssh/id_rsa.pub
 grep -q "$(cat ../launch-daemon/id_rsa.pub)" /home/pi/.ssh/authorized_keys || \
   echo "$(cat ../launch-daemon/id_rsa.pub)" >> /home/pi/.ssh/authorized_keys
-cat ../launch-daemon/id_rsa.pub >> /home/pi/.ssh/authorized_keys
 chown pi:pi /home/pi/.ssh/authorized_keys
 
 systemctl enable ssh
