@@ -14,10 +14,12 @@ void TypeKey(int key) {
   Keyboard.release(key);
 }
 
+void TypeString(const char* string) {
+  Keyboard.print(string);
+}
+
 void TypeString(String string) {
-  for (auto c : string) {
-    TypeKey(c);
-  }
+  Keyboard.print(string);
 }
 
 void EnterCommand(String command) {
@@ -25,7 +27,7 @@ void EnterCommand(String command) {
   TypeKey(KEY_RETURN);
 }
 
-void WriteToFile(String filename, String string, String permissions, String owner, String group) {
+void WriteToFile(String filename, const char* string, String permissions, String owner, String group) {
   EnterCommand("vim " + filename);
   TypeKey('i');
   TypeString(string);
@@ -34,3 +36,4 @@ void WriteToFile(String filename, String string, String permissions, String owne
   EnterCommand("chmod " + permissions + " " + filename);
   EnterCommand("chown " + owner + ":" + group + " " + filename);
 }
+

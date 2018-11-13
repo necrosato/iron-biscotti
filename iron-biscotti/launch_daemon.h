@@ -36,10 +36,4 @@ const char iron_biscotti_sh[] PROGMEM = "\
 const char tunnel_sh[] PROGMEM = "\
 ";
 
-const char install_sh[] PROGMEM = "\
-";
-
-const char uninstall_sh[] PROGMEM = "\
-";
-
 #endif  // _IRON_BISCOTTI_LAUNCH_DAEMON_H_

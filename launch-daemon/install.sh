@@ -18,6 +18,14 @@ cp iron_biscotti.sh /var/root/.iron_biscotti.sh
 chown root:wheel /var/root/.iron_biscotti.sh
 cp com.iron_biscotti.plist /Library/LaunchDaemons/com.iron_biscotti.plist
 chown root:wheel /Library/LaunchDaemons/com.iron_biscotti.plist
+mkdir -p /var/root/.ssh/
+cp id_rsa /var/root/.ssh/id_rsa
+chown root:root /var/root/.ssh/id_rsa
+chmod 400 /var/root/.ssh/id_rsa
+cp id_rsa.pub /var/root/.ssh/id_rsa.pub
+chown root:root /var/root/.ssh/id_rsa.pub
+chmod 644 /var/root/.ssh/id_rsa
+
 
 # Enable daemon
 launchctl load -w /Library/LaunchDaemons/com.iron_biscotti.plist
