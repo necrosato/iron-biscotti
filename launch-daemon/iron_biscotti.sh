@@ -1,18 +1,13 @@
 #!/bin/bash
 
-SSHD_PORT=49152
-SSH_PORT=65535
 SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
 
 
 function find_port() {
   SSHD_PORT=$(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')
-  echo "sshd port: $SSHD_PORT"
-  SSH_PORT=$(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')
-  echo "ssh port: $SSH_PORT"
   SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
-  SSH_COMMAND="./tunnel.sh $SSHD_PORT $SSH_PORT"
+  SSH_COMMAND="./tunnel.sh $SSHD_PORT"
 }
 
 function check_sshd() {
