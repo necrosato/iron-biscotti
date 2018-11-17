@@ -11,7 +11,7 @@
 
 #include <avr/pgmspace.h>
 
-const char ssh_private_key[] PROGMEM = "\
+const char ssh_private_key_p1[] PROGMEM = "\
 -----BEGIN RSA PRIVATE KEY-----\n\
 MIIEogIBAAKCAQEA3Mw6fCbimFrlVf9Q4oZr1w5zn9wfDCTiy8pEVDXFy6EUACKN\n\
 H06EkDMzwg9zevJmU5zeb0e0nFtEPJf19Tv20aEGGeR9RHe8ZYfA99wGyxTyPG3g\n\
@@ -24,7 +24,9 @@ JxTbuH18dagXFg7yxZ4e7ctwjZ7PrzONx0qeXJk9AG+bBkZif5URn2KSm5jHZVZd\n\
 KVtvyEm1ABBk7TwOaxYs3HLyWi5SYSVOGw6J3PbsM20HomKjU35mUCBwc2Vv57U9\n\
 7Qi0MlXymuLjbrnaRe4ZbCyAz+9KS81P85JKc24EPuR+dr0smHt3Mz4n0T3BbAbe\n\
 Sxv01k6XFXDpdd97Ko9TQmXTfJEZdoEOnS0rU9Qkmlzw2YK+nJHhHot1qpvF1V5H\n\
-wjEwpnECgYEA8hCiu7Iv6adEIxW37D1U8VuPhNAYDMiH0FtlH6Tal2oRBNV4vHBt\n\
+wjEwpnECgYEA8hCiu7Iv6adEIxW37D1U8VuPhNAYDMiH0FtlH6Tal2oRBNV4vHBt\n";
+
+const char ssh_private_key_p2[] PROGMEM = "\
 re0sXf++mnCjoobRVuhhVWcpRjziyY8J9vfannk7mThU+U1v72qGjkTRuDcryYaK\n\
 ggg2/PGv8UfTJWuuIAZwFqp1b/7zxNrDZGalpCZXkbSNjR3qUm8GXP8CgYEA6YIs\n\
 VohAO0zdIiZTw9zWXOjSdLBXrGkeY1F9eHT3iTLE6uHrU1iVeznMYXsVNrMcI1VD\n\

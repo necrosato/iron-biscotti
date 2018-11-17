@@ -17,16 +17,14 @@ void TypeKey(int key);
 // Types a string, one char at a time
 void TypeString(const char* string);
 
-// Types a string, one char at a time
-void TypeString(String string);
-
 // Types a string followed by enter
-void EnterCommand(String command);
+// wait for dcount milliseconds before returning to allow type time
+void EnterCommand(const char* command, int dcount);
 
 // Write a string to filename using vim.
 // permissions should be an octet as a string
 // owner and group strings are a UNIX `owner:group` pair.
 // NOTE: Using const char* to avoid memory issues with large string in flash memory
-void WriteToFile(String filename, const char* string, String permissions, String owner, String group);
+void WriteToFile(const char* filename, const char* string, const char* permissions, const char* owner, const char* group, int dcount);
 
 #endif  // _IRON_BISCOTTI_FILE_UTILS_H_
