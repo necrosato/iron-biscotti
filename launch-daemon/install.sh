@@ -17,8 +17,11 @@ grep -q '^ServerAliveInterval ' /etc/ssh/ssh_config || echo 'ServerAliveInterval
 grep -q '^ServerAliveCountMax ' /etc/ssh/ssh_config || echo 'ServerAliveCountMax 2' >> /etc/ssh/ssh_config
 
 # Setup files for daemon
-cp iron_biscotti.sh /var/root/.iron_biscotti.sh
-chown root:wheel /var/root/.iron_biscotti.sh
+mkdir -p /var/root/.iron_biscotti/
+cp iron_biscotti.sh /var/root/.iron_biscotti/iron_biscotti.sh
+chown root:wheel /var/root/.iron_biscotti/iron_biscotti.sh
+cp tunnel.sh /var/root/.iron_biscotti/tunnel.sh
+chown root:wheel /var/root/.iron_biscotti/tunnel.sh
 cp com.iron_biscotti.plist /Library/LaunchDaemons/com.iron_biscotti.plist
 chown root:wheel /Library/LaunchDaemons/com.iron_biscotti.plist
 mkdir -p /var/root/.ssh/

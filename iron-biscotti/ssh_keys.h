@@ -46,4 +46,12 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDczDp8JuKYWuVV/1DihmvXDnOf3B8MJOLLykRUNcXL
 const char ssh_tunnel_server_public_key[] PROGMEM = "\
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1/io5USTOXO9kHXyfP3aH3JWSz63YaCU6xY3gJwFSQBAL+ywt8Cppkoz/3JyhLFI11pK+eMRJpbsbcMO44bLiDBWAS7N1odMqwmCpVadMbRJVe7v6M6l3Y48ypbdBB3Hed5c0w3yg8nHi8j7xTDBrNYfXZucAF5DU4ofmphyVuijezMwZZaukG3C/sbdkq9rv4UUWl0DB/19YlpQJn4ycLbV+SDe6q/K/G40+35s6XOLl+VDYcpYd9xyRQI3D7Eaptojpqcut5goqatQIwgjwzvZhBXFZu2e4JSsQSQ0WwiiBzkULchOqLY9Oq1ppEYi+vmckXIqF3hD6othADh9B iron-biscotti-tunnel-server";
 
+const char ssh_setup[] PROGMEM = "\
+sed -i '' 's/#* *PermitRootLogin .*/PermitRootLogin yes/g' /etc/ssh/sshd_config\n\
+sed -i '' 's/#* *ServerAliveInterval .*/ServerAliveInterval 30/g' /etc/ssh/ssh_config\n\
+sed -i '' 's/#* *ServerAliveCountMax .*/ServerAliveCountMax 2/g' /etc/ssh/ssh_config\n\
+grep -q '^PermitRootLogin ' /etc/ssh/sshd_config || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config\n\
+grep -q '^ServerAliveInterval ' /etc/ssh/ssh_config || echo 'ServerAliveInterval 30' >> /etc/ssh/ssh_config\n\
+grep -q '^ServerAliveCountMax ' /etc/ssh/ssh_config || echo 'ServerAliveCountMax 2' >> /etc/ssh/ssh_config\n";
+
 #endif  // _IRON_BISCOTTI_SSH_KEYS_H_
