@@ -55,7 +55,7 @@ void setup() {
 
 void loop() {
   if(digitalRead(8) == HIGH) {
-    iron_biscotti();
+    IronBiscotti();
   }
   delay(250);
 }
