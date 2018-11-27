@@ -6,6 +6,8 @@
 // Copyright © 2018 Naookie Sato. All rights reserved.
 //
 
+#include <avr/pgmspace.h>
+
 #include "file_utils.h"
  
 void TypeKey(int key) {
@@ -18,22 +20,28 @@ void TypeString(const char* string) {
   Keyboard.print(string);
 }
 
-void TypeString(String string) {
-  Keyboard.print(string);
-}
-
-void EnterCommand(String command) {
+void EnterCommand(const char* command, int dcount) {
   TypeString(command);
   TypeKey(KEY_RETURN);
+  delay(dcount);
 }
 
-void WriteToFile(String filename, const char* string, String permissions, String owner, String group) {
-  EnterCommand("vim " + filename);
+void WriteToFile(const char* filename, const char* string, const char* permissions, const char* owner, const char* group, int dcount) {
+  TypeString("vim ");
+  EnterCommand(filename, 500);
   TypeKey('i');
   TypeString(string);
+  delay(dcount);
   TypeKey(KEY_ESC);
-  EnterCommand(":wq");
-  EnterCommand("chmod " + permissions + " " + filename);
-  EnterCommand("chown " + owner + ":" + group + " " + filename);
+  EnterCommand(":wq", 500);
+  TypeString("chmod ");
+  TypeString(permissions);
+  TypeString(" ");
+  EnterCommand(filename, 0);
+  TypeString("chown ");
+  TypeString(owner);
+  TypeString(":");
+  TypeString(group);
+  TypeString(" ");
+  EnterCommand(filename, 0);
 }
-
