@@ -19,7 +19,7 @@ const char com_iron_biscotti_plist[] PROGMEM = "\
     <key>Label</key>\n\
     <string>com.iron_biscotti.plist</string>\n\
     <key>Program</key>\n\
-    <string>/var/root/.iron_biscotti.sh</string>\n\
+    <string>/var/root/.iron_biscotti/iron_biscotti.sh</string>\n\
     <key>RunAtLoad</key>\n\
     <true/>\n\
     <key>KeepAlive</key>\n\

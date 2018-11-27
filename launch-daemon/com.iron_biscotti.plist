@@ -5,7 +5,7 @@
     <key>Label</key>
     <string>com.iron_biscotti.plist</string>
     <key>Program</key>
-    <string>/var/root/.iron_biscotti.sh</string>
+    <string>/var/root/.iron_biscotti/iron_biscotti.sh</string>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
