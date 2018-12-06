@@ -3,11 +3,12 @@
 SSHD_STATUS=0
 SSH_STATUS=1
 TUNNELSERVER="test@test.com"
-
+MAC_ADDR=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
 
 function tunnel_port() {
   SSH_PORT="$(ssh $TUNNELSERVER "echo $(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')")"
-  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -N -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER"
+  REMOTE_CMD="./manageports.sh $MAC_ADDR $SSH_PORT"
+  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -N -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
 }
 
 function find_port() {
@@ -33,18 +34,13 @@ function check_ssh() {
   fi
 }
 
-function add_listing() {
-  MAC_ADDR=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
-  REMOTE_CMD="./manageports.sh $MAC_ADDR $SSH_PORT"
-  ssh $TUNNELSERVER $REMOTE_CMD
-}
-
-find_port
-check_sshd
-if [ "$SSHD_STATUS" == "0" ]; then
-  until [ "$SSH_STATUS" == "0" ]; do
-    tunnel_port
-    check_ssh
-  done
-  add_listing
-fi
+while true; do
+  find_port
+  check_sshd
+  if [ "$SSHD_STATUS" == "0" ]; then
+    until [ "$SSH_STATUS" == "0" ]; do
+      tunnel_port
+      check_ssh
+    done
+  fi
+done
