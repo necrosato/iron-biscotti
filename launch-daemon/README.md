@@ -14,8 +14,9 @@ The script will do the following things:
 
 A few setup steps must be taken to configure `sshd` and authorization keys before installing the daemon:  
 1. `sshd` must be set to permit root login with an authorized key. This can be done in `/etc/ssh/sshd_config`.
-2. Place a desired public key in `/var/root/.ssh/authorized_keys`.
-3. Place a private key to authenticate into the tunnel server in `/var/root/.ssh/`.
+2. Ssh host keys may or may not exist. To conditionally generate them, use `ssh-keygen -A`.
+3. Place a desired public key in `/var/root/.ssh/authorized_keys`.
+4. Place a private key to authenticate into the tunnel server in `/var/root/.ssh/`.
 
 Use `install.sh` to install the daemon to the system for testing.  
 Use `uninstall.sh` to  remove the daemon from the system.
