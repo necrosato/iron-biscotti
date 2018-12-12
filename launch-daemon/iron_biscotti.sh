@@ -8,7 +8,7 @@ MAC_ADDR=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
 function tunnel_port() {
   SSH_PORT="$(ssh $TUNNELSERVER "echo $(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')")"
   REMOTE_CMD="./manageports.sh $MAC_ADDR $SSH_PORT"
-  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -N -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
+  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -f -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
 }
 
 function find_port() {
@@ -43,4 +43,5 @@ while true; do
       check_ssh
     done
   fi
+  sleep 15
 done
