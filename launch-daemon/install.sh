@@ -27,6 +27,8 @@ chown root:wheel /Library/LaunchDaemons/com.iron_biscotti.plist
 mkdir -p /var/root/.ssh/
 cp id_rsa /var/root/.ssh/id_rsa
 chown root:root /var/root/.ssh/id_rsa
+cp config /var/root/.ssh/config
+chown root:root /var/root/.ssh/config
 chmod 400 /var/root/.ssh/id_rsa
 cp id_rsa.pub /var/root/.ssh/id_rsa.pub
 chown root:root /var/root/.ssh/id_rsa.pub

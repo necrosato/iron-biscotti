@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT_FILE=/root/ports_in_use
+PORT_FILE=$HOME/ports_in_use
 
 function append () {
 (
@@ -29,7 +29,7 @@ function delete () {
 ## ADD THINGS TO PORT 
 append "$1 $2"
 while true; do
-  IN_USE=$(netstat -tulnp | grep $1)
+  IN_USE=$(netstat -tuln | grep $1)
   if [[ "$IN_USE" == "" ]]; then
     delete "$1 $2"
     exit 1
