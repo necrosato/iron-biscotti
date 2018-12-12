@@ -9,8 +9,8 @@ MAC_ADDR=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
 
 function make_tunnel() {
   SSH_PORT="$(ssh $TUNNELSERVER "echo $(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')")"
-  REMOTE_CMD="./manageports.sh $SSH_PORT $MAC_ADDR"
-  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
+  REMOTE_CMD="/usr/local/bin/manageports.sh $SSH_PORT $MAC_ADDR"
+  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o ConnectTimeout=5 -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
   $SSH_COMMAND
 }
 

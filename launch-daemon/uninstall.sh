@@ -8,7 +8,6 @@ launchctl unload -w /Library/LaunchDaemons/com.iron_biscotti.plist
 # Remove Daemon Files
 rm -r /var/root/.iron_biscotti/
 rm /Library/LaunchDaemons/com.iron_biscotti.plist
-rm /var/root/.ssh/id_rsa*
 TUNNEL_KEY=$(cat ../tunnel-server/id_rsa.pub | sed -e 's/\//\\\//g')
 sed -i ''  "/$TUNNEL_KEY/d" /var/root/.ssh/authorized_keys
 # Disable root login
