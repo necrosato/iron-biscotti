@@ -35,11 +35,10 @@ const char iron_biscotti_sh_p1[] PROGMEM = "\
 #!/bin/bash\n\
 \n\
 SSHD_STATUS=0\n\
-SSH_STATUS=1\n\
 SSHD_PORT=1024\n\
 SSHD_COMMAND=\"/usr/sbin/sshd -p \$SSHD_PORT\"\n\
 TUNNELSERVER=\"pi@10.0.0.138\"\n\
-MAC_ADDR=\$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')\n\
+MAC_ADDR=\$(networksetup -getmacaddress en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')\n\
 \n\
 function make_tunnel() {\n\
   SSH_PORT=\"\$(ssh \$TUNNELSERVER \"echo \$(python -c 'import socket; s = socket.socket(); s.bind((\"\", 0)); print s.getsockname()[1]; s.close()')\")\"\n\
@@ -56,6 +55,7 @@ function find_sshd_port() {\n\
 \n\
 function check_sshd() {\n\
   SSHD_PID=\$(ps -ax | grep \"\$SSHD_COMMAND\" | grep -v \"grep\" | awk '{print \$1}')\n\
+  SSHD_STATUS=0\n\
   if [ \"\$SSHD_PID\" == \"\" ]; then\n\
     echo restarting sshd\n\
     \$SSHD_COMMAND\n\
