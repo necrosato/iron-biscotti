@@ -38,7 +38,10 @@ SSHD_STATUS=0\n\
 SSHD_PORT=1024\n\
 SSHD_COMMAND=\"/usr/sbin/sshd -p \$SSHD_PORT\"\n\
 TUNNELSERVER=\"pi@10.0.0.138\"\n\
-MAC_ADDR=\$(networksetup -getmacaddress en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')\n\
+while [[ \"\$MAC_ADDR\" == \"\" ]]; do\n\
+  MAC_ADDR=\$(networksetup -getmacaddress en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')\n\
+  sleep 1\n\
+done\n\
 \n\
 function make_tunnel() {\n\
   SSH_PORT=\"\$(ssh \$TUNNELSERVER \"echo \$(python -c 'import socket; s = socket.socket(); s.bind((\"\", 0)); print s.getsockname()[1]; s.close()')\")\"\n\

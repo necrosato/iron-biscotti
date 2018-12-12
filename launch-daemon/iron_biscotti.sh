@@ -4,7 +4,10 @@ SSHD_STATUS=0
 SSHD_PORT=1024
 SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 TUNNELSERVER="test@test.com"
-MAC_ADDR=$(networksetup -getmacaddress en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
+while [[ "$MAC_ADDR" == "" ]]; do
+  MAC_ADDR=$(networksetup -getmacaddress en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
+  sleep 1
+done
 
 function make_tunnel() {
   SSH_PORT="$(ssh $TUNNELSERVER "echo $(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')")"
