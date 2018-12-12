@@ -1,21 +1,22 @@
 #!/bin/bash
 
-PORT_BEGIN=10000
-SSHD_PORT=10000
-SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 SSHD_STATUS=0
+SSH_STATUS=1
+SSHD_PORT=1024
+SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
+TUNNELSERVER="test@test.com"
+MAC_ADDR=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
 
-function find_port() {
-  for ((port=$PORT_BEGIN; port<=$PORT_BEGIN+1000; port++))
-    do
-      nc -z 127.0.0.1 $port
-      if [ "$?" -eq 1 ]; then
-        SSHD_PORT=$port	
-	    SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
-	    SSH_COMMAND="./tunnel.sh $SSHD_PORT"
-	    break
-      fi
-    done
+function make_tunnel() {
+  SSH_PORT="$(ssh $TUNNELSERVER "echo $(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')")"
+  REMOTE_CMD="./manageports.sh $SSH_PORT $MAC_ADDR"
+  SSH_COMMAND="ssh -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -R $SSH_PORT:localhost:$SSHD_PORT $TUNNELSERVER $REMOTE_CMD"
+  $SSH_COMMAND
+}
+
+function find_sshd_port() {
+  SSHD_PORT=$(python -c 'import socket; s = socket.socket(); s.bind(("", 0)); print s.getsockname()[1]; s.close()')
+  SSHD_COMMAND="/usr/sbin/sshd -p $SSHD_PORT"
 }
 
 function check_sshd() {
@@ -27,19 +28,11 @@ function check_sshd() {
   fi
 }
 
-function check_ssh() {
-  SSH_PID=$(ps -ax | grep "$SSH_COMMAND" | grep -v "grep" | awk '{print $1}')
-  if [ "$SSH_PID" == "" ]; then
-    # Exits with status code '1' if the connection was not established
-    $SSH_COMMAND
-  fi
-}
-
+find_sshd_port
 while true; do
-  find_port
   check_sshd
   if [ "$SSHD_STATUS" == "0" ]; then
-    check_ssh
+    make_tunnel
   fi
   sleep 15
 done
