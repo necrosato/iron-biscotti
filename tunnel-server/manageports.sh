@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PORT_FILE=$HOME/ports_in_use
+LOG_FILE=$HOME/reverse_tunnel.log
 
 function append () {
 (
@@ -25,6 +26,9 @@ function delete () {
   cat $TEMP > $PORT_FILE
 )100<>$PORT_FILE
 }
+
+## Add log line
+echo "$1 $2 : $(TZ="America/Los_Angeles" date)" >> $LOG_FILE
 
 ## ADD THINGS TO PORT 
 append "$1 $2"
