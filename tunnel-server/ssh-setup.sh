@@ -15,6 +15,7 @@ grep -q '^PermitRootLogin ' /etc/ssh/sshd_config || echo 'PermitRootLogin no' >>
 grep -q '^PasswordAuthentication ' /etc/ssh/sshd_config || echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config
 grep -q '^ClientAliveInterval ' /etc/ssh/sshd_config || echo 'ClientAliveInterval 30' >> /etc/ssh/sshd_config
 grep -q '^ClientAliveCountMax ' /etc/ssh/sshd_config || echo 'ClientAliveCountMax 2' >> /etc/ssh/sshd_config
+grep -q '^Port 10010 ' /etc/ssh/sshd_config || echo 'Port 10010' >> /etc/ssh/sshd_config
 
 mkdir -p /home/pi/.ssh/
 chown pi:pi /home/pi/.ssh/
@@ -27,6 +28,7 @@ chmod 644 /home/pi/.ssh/id_rsa.pub
 grep -q "$(cat ../launch-daemon/id_rsa.pub)" /home/pi/.ssh/authorized_keys || \
   echo "$(cat ../launch-daemon/id_rsa.pub)" >> /home/pi/.ssh/authorized_keys
 chown pi:pi /home/pi/.ssh/authorized_keys
+cp ./manageports.sh /usr/local/bin/manageports.sh
 
 systemctl enable ssh
 systemctl restart ssh
